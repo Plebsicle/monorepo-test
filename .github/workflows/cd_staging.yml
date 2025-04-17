@@ -15,7 +15,7 @@ jobs:
       - name: Set up SSH key
         run: |
           echo "${{ secrets.STAGING_SECRET }}" > ~/ssh_key
-          chmod 700 ~/ssh_key
+          chmod 600 ~/ssh_key
 
       - name: SSH into server and deploy
         run: |
