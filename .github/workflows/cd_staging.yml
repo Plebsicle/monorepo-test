@@ -21,6 +21,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@3.108.58.241 << 'EOF'
             cd monorepo-test
+            source ~/.bashrc
             git pull
             pnpm install
             pnpm run build
