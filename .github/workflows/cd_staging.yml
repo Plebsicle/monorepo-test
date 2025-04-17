@@ -20,12 +20,21 @@ jobs:
       - name: SSH into server and deploy
         run: |
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@3.108.58.241 << 'EOF'
-            cd monorepo-test
+            # Source environment setup
             source ~/.bashrc
+            source ~/.nvm/nvm.sh
+
+            # Ensure Node.js and pnpm are accessible
+            export PATH="$HOME/.nvm/versions/node/v22.14.0/bin:$PATH"
+            echo "Node version: $(node -v)"
+            echo "pnpm version: $(pnpm -v)"
+
+            # Deployment commands
+            cd monorepo-test
             git pull
-            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/pnpm install
-            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/pnpm run build
-            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/pm2 restart fe-server
-            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/pm2 restart http-server
-            /home/ubuntu/.nvm/versions/node/v22.14.0/bin/pm2 restart ws-server
+            pnpm install
+            pnpm run build
+            pm2 restart fe-server
+            pm2 restart http-server
+            pm2 restart ws-server
           EOF
