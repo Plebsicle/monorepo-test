@@ -15,7 +15,7 @@ jobs :
 
       - name : set up ssh key
         run : |
-          echo ${{secrets.PROD_SECRET}} > ~/ssh_key
+          echo "${{secrets.PROD_SECRET}}" > ~/ssh_key
           chmod 600 ~/ssh_key
 
       - name : ssh  and build and deploy
