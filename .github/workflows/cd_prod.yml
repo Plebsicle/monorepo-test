@@ -15,7 +15,7 @@ jobs :
 
       - name : set up ssh key
         run : |
-          echo ${{secrets.PRODUCTION_SECRET}} &> ~/ssh_key
+          echo ${{secrets.PROD_SECRET}} &> ~/ssh_key
           chmod 600 ~/ssh_key
 
       - name : ssh  and build and deploy
@@ -32,4 +32,4 @@ jobs :
           pm2 restart fe-server
           pm2 restart ws-server
           pm2 restart http-server
-         EOF
+          EOF
