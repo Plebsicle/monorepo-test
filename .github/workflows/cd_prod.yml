@@ -15,21 +15,27 @@ jobs :
 
       - name : set up ssh key
         run : |
-          echo ${{secrets.PROD_SECRET}} &> ~/ssh_key
+          echo ${{secrets.PROD_SECRET}} > ~/ssh_key
           chmod 600 ~/ssh_key
 
       - name : ssh  and build and deploy
-        run :
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@65.0.6.227 << 'EOF'
-          source ~/.bashsrc
-          source ~/.nvm/nvm.sh
-          export PATH = "$HOME/.nvm/versions/node/v22.14.0/bin:$PATH"
+        run : |
+         ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@65.0.6.227 << 'EOF'
+            # Source environment setup
+            source ~/.bashrc
+            source ~/.nvm/nvm.sh
 
-          cd monorepo-test
-          git pull
-          pnpm install
-          pnpm run build
-          pm2 restart fe-server
-          pm2 restart ws-server
-          pm2 restart http-server
+            # Ensure Node.js and pnpm are accessible
+            export PATH="$HOME/.nvm/versions/node/v22.14.0/bin:$PATH"
+            echo "Node version: $(node -v)"
+            echo "pnpm version: $(pnpm -v)"
+
+            # Deployment commands
+            cd monorepo-test
+            git pull
+            pnpm install
+            pnpm run build
+            pm2 restart fe-server
+            pm2 restart http-server
+            pm2 restart ws-server
           EOF
