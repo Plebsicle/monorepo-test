@@ -20,7 +20,7 @@ jobs :
 
       - name : ssh  and build and deploy
         run : |
-         ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@65.0.6.227 << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@65.0.6.227 << 'EOF'
             # Source environment setup
             source ~/.bashrc
             source ~/.nvm/nvm.sh
